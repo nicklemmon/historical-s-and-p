@@ -287,7 +287,15 @@ function formatCurrency(value: string): string {
 
 function parseCurrency(value: string): number {
   // Remove all non-numeric characters except decimal point
-  const numericValue = value.replace(/[^\d.]/g, '');
+  let numericValue = value.replace(/[^\d.]/g, '');
+
+  // Handle multiple decimal points by keeping only the first one
+  const decimalIndex = numericValue.indexOf('.');
+  if (decimalIndex !== -1) {
+    numericValue = numericValue.substring(0, decimalIndex + 1) +
+                   numericValue.substring(decimalIndex + 1).replace(/\./g, '');
+  }
+
   return parseFloat(numericValue) || 0;
 }
 
@@ -339,6 +347,22 @@ function calculateReturns(): void {
   const endMonth = parseInt((document.querySelector('#end-month') as HTMLSelectElement).value);
   const endYear = parseInt((document.querySelector('#end-year') as HTMLSelectElement).value);
 
+  // Validate amounts
+  if (startingAmount < 0) {
+    showError('Starting amount cannot be negative');
+    return;
+  }
+
+  if (monthlyContribution < 0) {
+    showError('Monthly contribution cannot be negative');
+    return;
+  }
+
+  if (startingAmount === 0 && monthlyContribution === 0) {
+    showError('Starting amount and monthly contribution cannot both be zero');
+    return;
+  }
+
   // Validate date range
   const startDate = startYear * 12 + startMonth;
   const endDate = endYear * 12 + endMonth;
@@ -366,10 +390,6 @@ function calculateReturns(): void {
   const chartLabels: string[] = [];
   const chartValues: number[] = [];
 
-  // Add initial value
-  chartLabels.push(`${relevantReturns[0].year}-${String(relevantReturns[0].month).padStart(2, '0')}`);
-  chartValues.push(startingAmount);
-
   relevantReturns.forEach((monthData, index) => {
     // Add monthly contribution at the beginning of each month (except the first month)
     if (index > 0) {
@@ -381,15 +401,15 @@ function calculateReturns(): void {
     const monthlyReturn = monthData.return / 100;
     portfolioValue *= (1 + monthlyReturn);
 
-    // Track value for chart (skip first since we already added it)
-    if (index > 0) {
-      chartLabels.push(`${monthData.year}-${String(monthData.month).padStart(2, '0')}`);
-      chartValues.push(portfolioValue);
-    }
+    // Track value for chart after each month's returns are applied
+    chartLabels.push(`${monthData.year}-${String(monthData.month).padStart(2, '0')}`);
+    chartValues.push(portfolioValue);
   });
 
   const totalGains = portfolioValue - totalContributions;
-  const totalReturnPercentage = ((portfolioValue - totalContributions) / totalContributions) * 100;
+  const totalReturnPercentage = totalContributions > 0
+    ? ((portfolioValue - totalContributions) / totalContributions) * 100
+    : 0;
 
   // Display results
   displayResults(portfolioValue, totalContributions, totalGains, totalReturnPercentage, chartLabels, chartValues);
@@ -441,8 +461,20 @@ function createPortfolioChart(labels: string[], values: number[]): void {
 
   if (labels.length > maxDataPoints) {
     const step = Math.ceil(labels.length / maxDataPoints);
-    sampledLabels = labels.filter((_, index) => index % step === 0 || index === labels.length - 1);
-    sampledValues = values.filter((_, index) => index % step === 0 || index === values.length - 1);
+    const sampledIndices = new Set<number>();
+
+    // Add every step
+    for (let i = 0; i < labels.length; i += step) {
+      sampledIndices.add(i);
+    }
+
+    // Always include the last point
+    sampledIndices.add(labels.length - 1);
+
+    // Convert to sorted array and extract values
+    const indices = Array.from(sampledIndices).sort((a, b) => a - b);
+    sampledLabels = indices.map(i => labels[i]);
+    sampledValues = indices.map(i => values[i]);
   }
 
   portfolioChart = new Chart(ctx, {

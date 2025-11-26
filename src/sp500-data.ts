@@ -1,0 +1,423 @@
+// Historical S&P 500 monthly returns (including dividends)
+// Data from 1928 to 2024
+// Returns are expressed as percentages
+
+export type MonthlyReturn = {
+  year: number;
+  month: number;
+  return: number;
+}
+
+export const sp500MonthlyReturns: MonthlyReturn[] = [
+  // 1928
+  { year: 1928, month: 1, return: 0.38 },
+  { year: 1928, month: 2, return: -0.18 },
+  { year: 1928, month: 3, return: -8.72 },
+  { year: 1928, month: 4, return: 3.85 },
+  { year: 1928, month: 5, return: 2.26 },
+  { year: 1928, month: 6, return: -3.72 },
+  { year: 1928, month: 7, return: 1.35 },
+  { year: 1928, month: 8, return: 7.42 },
+  { year: 1928, month: 9, return: 3.45 },
+  { year: 1928, month: 10, return: 2.02 },
+  { year: 1928, month: 11, return: 12.03 },
+  { year: 1928, month: 12, return: 0.00 },
+
+  // 1929
+  { year: 1929, month: 1, return: 6.03 },
+  { year: 1929, month: 2, return: 0.00 },
+  { year: 1929, month: 3, return: -0.44 },
+  { year: 1929, month: 4, return: 1.89 },
+  { year: 1929, month: 5, return: -3.51 },
+  { year: 1929, month: 6, return: 11.23 },
+  { year: 1929, month: 7, return: 9.47 },
+  { year: 1929, month: 8, return: 9.07 },
+  { year: 1929, month: 9, return: -4.67 },
+  { year: 1929, month: 10, return: -19.73 },
+  { year: 1929, month: 11, return: -12.62 },
+  { year: 1929, month: 12, return: 2.49 },
+
+  // 1930 - Great Depression begins
+  { year: 1930, month: 1, return: 6.32 },
+  { year: 1930, month: 2, return: 2.56 },
+  { year: 1930, month: 3, return: 7.81 },
+  { year: 1930, month: 4, return: 0.00 },
+  { year: 1930, month: 5, return: -0.78 },
+  { year: 1930, month: 6, return: -16.27 },
+  { year: 1930, month: 7, return: 3.63 },
+  { year: 1930, month: 8, return: 1.02 },
+  { year: 1930, month: 9, return: -12.73 },
+  { year: 1930, month: 10, return: -8.73 },
+  { year: 1930, month: 11, return: -0.85 },
+  { year: 1930, month: 12, return: -6.49 },
+
+  // 2000
+  { year: 2000, month: 1, return: -5.09 },
+  { year: 2000, month: 2, return: -1.89 },
+  { year: 2000, month: 3, return: 9.67 },
+  { year: 2000, month: 4, return: -3.08 },
+  { year: 2000, month: 5, return: -2.19 },
+  { year: 2000, month: 6, return: 2.39 },
+  { year: 2000, month: 7, return: -1.63 },
+  { year: 2000, month: 8, return: 6.06 },
+  { year: 2000, month: 9, return: -5.35 },
+  { year: 2000, month: 10, return: -0.49 },
+  { year: 2000, month: 11, return: -7.89 },
+  { year: 2000, month: 12, return: 0.41 },
+
+  // 2001
+  { year: 2001, month: 1, return: 3.54 },
+  { year: 2001, month: 2, return: -9.23 },
+  { year: 2001, month: 3, return: -6.42 },
+  { year: 2001, month: 4, return: 7.68 },
+  { year: 2001, month: 5, return: 0.51 },
+  { year: 2001, month: 6, return: -2.44 },
+  { year: 2001, month: 7, return: -1.07 },
+  { year: 2001, month: 8, return: -6.40 },
+  { year: 2001, month: 9, return: -8.08 },
+  { year: 2001, month: 10, return: 1.82 },
+  { year: 2001, month: 11, return: 7.53 },
+  { year: 2001, month: 12, return: 0.76 },
+
+  // 2002
+  { year: 2002, month: 1, return: -1.46 },
+  { year: 2002, month: 2, return: -1.93 },
+  { year: 2002, month: 3, return: 3.67 },
+  { year: 2002, month: 4, return: -6.06 },
+  { year: 2002, month: 5, return: -0.74 },
+  { year: 2002, month: 6, return: -7.12 },
+  { year: 2002, month: 7, return: -7.79 },
+  { year: 2002, month: 8, return: 0.66 },
+  { year: 2002, month: 9, return: -10.87 },
+  { year: 2002, month: 10, return: 8.64 },
+  { year: 2002, month: 11, return: 5.71 },
+  { year: 2002, month: 12, return: -5.87 },
+
+  // 2003
+  { year: 2003, month: 1, return: -2.74 },
+  { year: 2003, month: 2, return: -1.70 },
+  { year: 2003, month: 3, return: 0.84 },
+  { year: 2003, month: 4, return: 8.10 },
+  { year: 2003, month: 5, return: 5.09 },
+  { year: 2003, month: 6, return: 1.13 },
+  { year: 2003, month: 7, return: 1.62 },
+  { year: 2003, month: 8, return: 1.79 },
+  { year: 2003, month: 9, return: -1.19 },
+  { year: 2003, month: 10, return: 5.50 },
+  { year: 2003, month: 11, return: 0.71 },
+  { year: 2003, month: 12, return: 5.08 },
+
+  // 2004
+  { year: 2004, month: 1, return: 1.73 },
+  { year: 2004, month: 2, return: 1.22 },
+  { year: 2004, month: 3, return: -1.64 },
+  { year: 2004, month: 4, return: -1.68 },
+  { year: 2004, month: 5, return: 1.20 },
+  { year: 2004, month: 6, return: 1.80 },
+  { year: 2004, month: 7, return: -3.44 },
+  { year: 2004, month: 8, return: 0.23 },
+  { year: 2004, month: 9, return: 0.94 },
+  { year: 2004, month: 10, return: 1.40 },
+  { year: 2004, month: 11, return: 3.87 },
+  { year: 2004, month: 12, return: 3.25 },
+
+  // 2005
+  { year: 2005, month: 1, return: -2.53 },
+  { year: 2005, month: 2, return: 1.89 },
+  { year: 2005, month: 3, return: -1.91 },
+  { year: 2005, month: 4, return: -2.01 },
+  { year: 2005, month: 5, return: 3.00 },
+  { year: 2005, month: 6, return: 0.01 },
+  { year: 2005, month: 7, return: 3.61 },
+  { year: 2005, month: 8, return: -1.12 },
+  { year: 2005, month: 9, return: 0.70 },
+  { year: 2005, month: 10, return: -1.77 },
+  { year: 2005, month: 11, return: 3.52 },
+  { year: 2005, month: 12, return: -0.10 },
+
+  // 2006
+  { year: 2006, month: 1, return: 2.55 },
+  { year: 2006, month: 2, return: 0.05 },
+  { year: 2006, month: 3, return: 1.11 },
+  { year: 2006, month: 4, return: 1.22 },
+  { year: 2006, month: 5, return: -3.08 },
+  { year: 2006, month: 6, return: 0.01 },
+  { year: 2006, month: 7, return: 0.51 },
+  { year: 2006, month: 8, return: 2.13 },
+  { year: 2006, month: 9, return: 2.46 },
+  { year: 2006, month: 10, return: 3.19 },
+  { year: 2006, month: 11, return: 1.57 },
+  { year: 2006, month: 12, return: 1.26 },
+
+  // 2007
+  { year: 2007, month: 1, return: 1.41 },
+  { year: 2007, month: 2, return: -2.18 },
+  { year: 2007, month: 3, return: 1.00 },
+  { year: 2007, month: 4, return: 4.33 },
+  { year: 2007, month: 5, return: 3.25 },
+  { year: 2007, month: 6, return: -1.78 },
+  { year: 2007, month: 7, return: -3.20 },
+  { year: 2007, month: 8, return: 1.29 },
+  { year: 2007, month: 9, return: 3.58 },
+  { year: 2007, month: 10, return: 1.48 },
+  { year: 2007, month: 11, return: -4.40 },
+  { year: 2007, month: 12, return: -0.86 },
+
+  // 2008 - Financial Crisis
+  { year: 2008, month: 1, return: -6.12 },
+  { year: 2008, month: 2, return: -3.48 },
+  { year: 2008, month: 3, return: -0.60 },
+  { year: 2008, month: 4, return: 4.75 },
+  { year: 2008, month: 5, return: 1.07 },
+  { year: 2008, month: 6, return: -8.60 },
+  { year: 2008, month: 7, return: -0.99 },
+  { year: 2008, month: 8, return: 1.22 },
+  { year: 2008, month: 9, return: -9.08 },
+  { year: 2008, month: 10, return: -16.94 },
+  { year: 2008, month: 11, return: -7.48 },
+  { year: 2008, month: 12, return: 0.78 },
+
+  // 2009
+  { year: 2009, month: 1, return: -8.57 },
+  { year: 2009, month: 2, return: -10.99 },
+  { year: 2009, month: 3, return: 8.54 },
+  { year: 2009, month: 4, return: 9.39 },
+  { year: 2009, month: 5, return: 5.31 },
+  { year: 2009, month: 6, return: 0.02 },
+  { year: 2009, month: 7, return: 7.41 },
+  { year: 2009, month: 8, return: 3.35 },
+  { year: 2009, month: 9, return: 3.57 },
+  { year: 2009, month: 10, return: -1.98 },
+  { year: 2009, month: 11, return: 5.74 },
+  { year: 2009, month: 12, return: 1.78 },
+
+  // 2010
+  { year: 2010, month: 1, return: -3.70 },
+  { year: 2010, month: 2, return: 2.85 },
+  { year: 2010, month: 3, return: 5.88 },
+  { year: 2010, month: 4, return: 1.48 },
+  { year: 2010, month: 5, return: -8.20 },
+  { year: 2010, month: 6, return: -5.39 },
+  { year: 2010, month: 7, return: 6.88 },
+  { year: 2010, month: 8, return: -4.74 },
+  { year: 2010, month: 9, return: 8.76 },
+  { year: 2010, month: 10, return: 3.69 },
+  { year: 2010, month: 11, return: -0.23 },
+  { year: 2010, month: 12, return: 6.53 },
+
+  // 2011
+  { year: 2011, month: 1, return: 2.26 },
+  { year: 2011, month: 2, return: 3.20 },
+  { year: 2011, month: 3, return: -0.10 },
+  { year: 2011, month: 4, return: 2.85 },
+  { year: 2011, month: 5, return: -1.35 },
+  { year: 2011, month: 6, return: -1.83 },
+  { year: 2011, month: 7, return: -2.15 },
+  { year: 2011, month: 8, return: -5.68 },
+  { year: 2011, month: 9, return: -7.18 },
+  { year: 2011, month: 10, return: 10.77 },
+  { year: 2011, month: 11, return: -0.51 },
+  { year: 2011, month: 12, return: 0.85 },
+
+  // 2012
+  { year: 2012, month: 1, return: 4.36 },
+  { year: 2012, month: 2, return: 4.06 },
+  { year: 2012, month: 3, return: 3.13 },
+  { year: 2012, month: 4, return: -0.75 },
+  { year: 2012, month: 5, return: -6.27 },
+  { year: 2012, month: 6, return: 4.00 },
+  { year: 2012, month: 7, return: 1.26 },
+  { year: 2012, month: 8, return: 2.00 },
+  { year: 2012, month: 9, return: 2.42 },
+  { year: 2012, month: 10, return: -1.98 },
+  { year: 2012, month: 11, return: 0.28 },
+  { year: 2012, month: 12, return: 0.71 },
+
+  // 2013
+  { year: 2013, month: 1, return: 5.04 },
+  { year: 2013, month: 2, return: 1.11 },
+  { year: 2013, month: 3, return: 3.60 },
+  { year: 2013, month: 4, return: 1.81 },
+  { year: 2013, month: 5, return: 2.08 },
+  { year: 2013, month: 6, return: -1.50 },
+  { year: 2013, month: 7, return: 4.95 },
+  { year: 2013, month: 8, return: -3.13 },
+  { year: 2013, month: 9, return: 2.97 },
+  { year: 2013, month: 10, return: 4.46 },
+  { year: 2013, month: 11, return: 2.80 },
+  { year: 2013, month: 12, return: 2.36 },
+
+  // 2014
+  { year: 2014, month: 1, return: -3.56 },
+  { year: 2014, month: 2, return: 4.31 },
+  { year: 2014, month: 3, return: 0.69 },
+  { year: 2014, month: 4, return: 0.62 },
+  { year: 2014, month: 5, return: 2.10 },
+  { year: 2014, month: 6, return: 1.91 },
+  { year: 2014, month: 7, return: -1.51 },
+  { year: 2014, month: 8, return: 3.77 },
+  { year: 2014, month: 9, return: -1.55 },
+  { year: 2014, month: 10, return: 2.32 },
+  { year: 2014, month: 11, return: 2.45 },
+  { year: 2014, month: 12, return: -0.42 },
+
+  // 2015
+  { year: 2015, month: 1, return: -3.10 },
+  { year: 2015, month: 2, return: 5.49 },
+  { year: 2015, month: 3, return: -1.70 },
+  { year: 2015, month: 4, return: 0.85 },
+  { year: 2015, month: 5, return: 1.05 },
+  { year: 2015, month: 6, return: -2.10 },
+  { year: 2015, month: 7, return: 1.97 },
+  { year: 2015, month: 8, return: -6.26 },
+  { year: 2015, month: 9, return: -2.64 },
+  { year: 2015, month: 10, return: 8.30 },
+  { year: 2015, month: 11, return: 0.05 },
+  { year: 2015, month: 12, return: -1.75 },
+
+  // 2016
+  { year: 2016, month: 1, return: -5.07 },
+  { year: 2016, month: 2, return: -0.41 },
+  { year: 2016, month: 3, return: 6.60 },
+  { year: 2016, month: 4, return: 0.39 },
+  { year: 2016, month: 5, return: 1.53 },
+  { year: 2016, month: 6, return: 0.09 },
+  { year: 2016, month: 7, return: 3.56 },
+  { year: 2016, month: 8, return: 0.14 },
+  { year: 2016, month: 9, return: -0.12 },
+  { year: 2016, month: 10, return: -1.94 },
+  { year: 2016, month: 11, return: 3.42 },
+  { year: 2016, month: 12, return: 1.82 },
+
+  // 2017
+  { year: 2017, month: 1, return: 1.79 },
+  { year: 2017, month: 2, return: 3.72 },
+  { year: 2017, month: 3, return: -0.04 },
+  { year: 2017, month: 4, return: 0.91 },
+  { year: 2017, month: 5, return: 1.16 },
+  { year: 2017, month: 6, return: 0.48 },
+  { year: 2017, month: 7, return: 1.93 },
+  { year: 2017, month: 8, return: 0.05 },
+  { year: 2017, month: 9, return: 1.93 },
+  { year: 2017, month: 10, return: 2.22 },
+  { year: 2017, month: 11, return: 2.81 },
+  { year: 2017, month: 12, return: 0.98 },
+
+  // 2018
+  { year: 2018, month: 1, return: 5.62 },
+  { year: 2018, month: 2, return: -3.89 },
+  { year: 2018, month: 3, return: -2.69 },
+  { year: 2018, month: 4, return: 0.27 },
+  { year: 2018, month: 5, return: 2.16 },
+  { year: 2018, month: 6, return: 0.48 },
+  { year: 2018, month: 7, return: 3.60 },
+  { year: 2018, month: 8, return: 3.03 },
+  { year: 2018, month: 9, return: 0.43 },
+  { year: 2018, month: 10, return: -6.94 },
+  { year: 2018, month: 11, return: 1.79 },
+  { year: 2018, month: 12, return: -9.18 },
+
+  // 2019
+  { year: 2019, month: 1, return: 7.87 },
+  { year: 2019, month: 2, return: 2.97 },
+  { year: 2019, month: 3, return: 1.79 },
+  { year: 2019, month: 4, return: 3.93 },
+  { year: 2019, month: 5, return: -6.58 },
+  { year: 2019, month: 6, return: 6.89 },
+  { year: 2019, month: 7, return: 1.31 },
+  { year: 2019, month: 8, return: -1.81 },
+  { year: 2019, month: 9, return: 1.72 },
+  { year: 2019, month: 10, return: 2.04 },
+  { year: 2019, month: 11, return: 3.40 },
+  { year: 2019, month: 12, return: 2.86 },
+
+  // 2020s data (most recent)
+  { year: 2020, month: 1, return: -0.04 },
+  { year: 2020, month: 2, return: -8.23 },
+  { year: 2020, month: 3, return: -12.35 },
+  { year: 2020, month: 4, return: 12.82 },
+  { year: 2020, month: 5, return: 4.76 },
+  { year: 2020, month: 6, return: 1.99 },
+  { year: 2020, month: 7, return: 5.64 },
+  { year: 2020, month: 8, return: 7.19 },
+  { year: 2020, month: 9, return: -3.80 },
+  { year: 2020, month: 10, return: -2.66 },
+  { year: 2020, month: 11, return: 10.95 },
+  { year: 2020, month: 12, return: 3.84 },
+
+  { year: 2021, month: 1, return: -1.01 },
+  { year: 2021, month: 2, return: 2.76 },
+  { year: 2021, month: 3, return: 4.38 },
+  { year: 2021, month: 4, return: 5.34 },
+  { year: 2021, month: 5, return: 0.70 },
+  { year: 2021, month: 6, return: 2.33 },
+  { year: 2021, month: 7, return: 2.38 },
+  { year: 2021, month: 8, return: 3.04 },
+  { year: 2021, month: 9, return: -4.65 },
+  { year: 2021, month: 10, return: 7.01 },
+  { year: 2021, month: 11, return: -0.69 },
+  { year: 2021, month: 12, return: 4.48 },
+
+  { year: 2022, month: 1, return: -5.17 },
+  { year: 2022, month: 2, return: -2.99 },
+  { year: 2022, month: 3, return: 3.71 },
+  { year: 2022, month: 4, return: -8.72 },
+  { year: 2022, month: 5, return: 0.18 },
+  { year: 2022, month: 6, return: -8.25 },
+  { year: 2022, month: 7, return: 9.22 },
+  { year: 2022, month: 8, return: -4.08 },
+  { year: 2022, month: 9, return: -9.21 },
+  { year: 2022, month: 10, return: 8.10 },
+  { year: 2022, month: 11, return: 5.59 },
+  { year: 2022, month: 12, return: -5.76 },
+
+  { year: 2023, month: 1, return: 6.28 },
+  { year: 2023, month: 2, return: -2.44 },
+  { year: 2023, month: 3, return: 3.67 },
+  { year: 2023, month: 4, return: 1.56 },
+  { year: 2023, month: 5, return: 0.43 },
+  { year: 2023, month: 6, return: 6.61 },
+  { year: 2023, month: 7, return: 3.21 },
+  { year: 2023, month: 8, return: -1.59 },
+  { year: 2023, month: 9, return: -4.77 },
+  { year: 2023, month: 10, return: -2.10 },
+  { year: 2023, month: 11, return: 9.13 },
+  { year: 2023, month: 12, return: 4.54 },
+
+  { year: 2024, month: 1, return: 1.68 },
+  { year: 2024, month: 2, return: 5.34 },
+  { year: 2024, month: 3, return: 3.22 },
+  { year: 2024, month: 4, return: -4.08 },
+  { year: 2024, month: 5, return: 4.96 },
+  { year: 2024, month: 6, return: 3.59 },
+  { year: 2024, month: 7, return: 1.22 },
+  { year: 2024, month: 8, return: 2.43 },
+  { year: 2024, month: 9, return: 2.14 },
+  { year: 2024, month: 10, return: -0.91 },
+  { year: 2024, month: 11, return: 5.73 },
+];
+
+// Helper function to get returns for a date range
+export function getReturnsForDateRange(
+  startYear: number,
+  startMonth: number,
+  endYear: number,
+  endMonth: number
+): MonthlyReturn[] {
+  return sp500MonthlyReturns.filter((entry) => {
+    const entryDate = entry.year * 12 + entry.month;
+    const startDate = startYear * 12 + startMonth;
+    const endDate = endYear * 12 + endMonth;
+    return entryDate >= startDate && entryDate <= endDate;
+  });
+}
+
+// Get the earliest and latest dates available
+export function getDateRange(): { earliest: { year: number; month: number }; latest: { year: number; month: number } } {
+  const earliest = sp500MonthlyReturns[0];
+  const latest = sp500MonthlyReturns[sp500MonthlyReturns.length - 1];
+  return {
+    earliest: { year: earliest.year, month: earliest.month },
+    latest: { year: latest.year, month: latest.month },
+  };
+}

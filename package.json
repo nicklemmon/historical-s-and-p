@@ -7,7 +7,7 @@
     "dev": "npm run update-data && vite",
     "build": "npm run update-data && vite build",
     "preview": "vite preview",
-    "update-data": "node --experimental-strip-types scripts/fetch-sp500-data.ts"
+    "update-data": "node --experimental-strip-types scripts/fetch-sp500-data.ts && node --experimental-strip-types scripts/fetch-stock-data.ts"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.17",
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "chart.js": "^4.5.1",
+    "p-map": "^7.0.4",
     "yahoo-finance2": "^3.10.2"
   }
 }

@@ -33,20 +33,21 @@ async function fetchSP500Data() {
     const startDate = new Date('1950-01-01');
     const endDate = new Date();
 
-    const result = await yahooFinance.historical('^GSPC', {
+    const result = await yahooFinance.chart('^GSPC', {
       period1: startDate,
       period2: endDate,
       interval: '1mo', // Monthly data
     });
 
-    console.log(`Fetched ${result.length} months of data`);
+    const quotes = result.quotes;
+    console.log(`Fetched ${quotes.length} months of data`);
 
     // Transform the data into our format
     const monthlyReturns: MonthlyReturn[] = [];
 
-    for (let i = 1; i < result.length; i++) {
-      const currentMonth = result[i];
-      const previousMonth = result[i - 1];
+    for (let i = 1; i < quotes.length; i++) {
+      const currentMonth = quotes[i];
+      const previousMonth = quotes[i - 1];
 
       const date = new Date(currentMonth.date);
       const year = date.getFullYear();

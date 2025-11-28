@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import pMap from 'p-map';
+import { STOCKS } from '../config/stocks.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,21 +27,6 @@ type StockMetadata = {
     end: { year: number; month: number };
   };
 }
-
-// Popular stocks to fetch + TFC
-const STOCKS = [
-  { ticker: 'AAPL', name: 'Apple Inc.' },
-  { ticker: 'MSFT', name: 'Microsoft Corporation' },
-  { ticker: 'GOOGL', name: 'Alphabet Inc.' },
-  { ticker: 'AMZN', name: 'Amazon.com Inc.' },
-  { ticker: 'TSLA', name: 'Tesla Inc.' },
-  { ticker: 'NVDA', name: 'NVIDIA Corporation' },
-  { ticker: 'META', name: 'Meta Platforms Inc.' },
-  { ticker: 'BRK-B', name: 'Berkshire Hathaway Inc.' },
-  { ticker: 'JPM', name: 'JPMorgan Chase & Co.' },
-  { ticker: 'V', name: 'Visa Inc.' },
-  { ticker: 'TFC', name: 'Truist Financial Corporation' },
-];
 
 async function fetchStockData(ticker: string, name: string) {
   console.log(`\nFetching data for ${ticker} (${name})...`);

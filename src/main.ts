@@ -268,6 +268,9 @@ function initializeApp() {
 
   // Set up event listeners after HTML is rendered
   setupEventListeners();
+
+  // Populate form from URL parameters and auto-calculate if params exist
+  populateFormFromURL();
 }
 
 // Helper functions for generating options
@@ -333,12 +336,98 @@ function parseCurrency(value: string): number {
   return parseFloat(numericValue) || 0;
 }
 
+// Update URL with current form values
+function updateURLFromForm(): void {
+  const startingAmount = parseCurrency((document.querySelector('#starting-amount') as HTMLInputElement).value);
+  const monthlyContribution = parseCurrency((document.querySelector('#monthly-contribution') as HTMLInputElement).value);
+  const startMonth = parseInt((document.querySelector('#start-month') as HTMLSelectElement).value);
+  const startYear = parseInt((document.querySelector('#start-year') as HTMLSelectElement).value);
+  const endMonth = parseInt((document.querySelector('#end-month') as HTMLSelectElement).value);
+  const endYear = parseInt((document.querySelector('#end-year') as HTMLSelectElement).value);
+  const compareStock = (document.querySelector('#compare-stock') as HTMLSelectElement)?.value || '';
+
+  const params = new URLSearchParams();
+  params.set('start', startingAmount.toString());
+  params.set('monthly', monthlyContribution.toString());
+  params.set('start_month', startMonth.toString());
+  params.set('start_year', startYear.toString());
+  params.set('end_month', endMonth.toString());
+  params.set('end_year', endYear.toString());
+  if (compareStock) {
+    params.set('stock', compareStock);
+  }
+
+  // Update URL without reloading the page
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  window.history.pushState({}, '', newUrl);
+}
+
+// Populate form from URL parameters
+function populateFormFromURL(): void {
+  const params = new URLSearchParams(window.location.search);
+
+  let hasParams = false;
+
+  if (params.has('start')) {
+    const startingAmount = parseFloat(params.get('start') || '0');
+    (document.querySelector('#starting-amount') as HTMLInputElement).value = formatCurrency(startingAmount.toString());
+    hasParams = true;
+  }
+
+  if (params.has('monthly')) {
+    const monthlyContribution = parseFloat(params.get('monthly') || '0');
+    (document.querySelector('#monthly-contribution') as HTMLInputElement).value = formatCurrency(monthlyContribution.toString());
+    hasParams = true;
+  }
+
+  if (params.has('start_month')) {
+    (document.querySelector('#start-month') as HTMLSelectElement).value = params.get('start_month') || '';
+    hasParams = true;
+  }
+
+  if (params.has('start_year')) {
+    (document.querySelector('#start-year') as HTMLSelectElement).value = params.get('start_year') || '';
+    hasParams = true;
+  }
+
+  if (params.has('end_month')) {
+    (document.querySelector('#end-month') as HTMLSelectElement).value = params.get('end_month') || '';
+    hasParams = true;
+  }
+
+  if (params.has('end_year')) {
+    (document.querySelector('#end-year') as HTMLSelectElement).value = params.get('end_year') || '';
+    hasParams = true;
+  }
+
+  if (params.has('stock')) {
+    const stockSelect = document.querySelector('#compare-stock') as HTMLSelectElement | null;
+    if (stockSelect) {
+      stockSelect.value = params.get('stock') || '';
+      hasParams = true;
+    }
+  }
+
+  // Auto-calculate if URL has parameters
+  if (hasParams) {
+    calculateReturns();
+  }
+}
+
 // Set up event listeners
 function setupEventListeners(): void {
   const form = document.querySelector('#calculator-form') as HTMLFormElement;
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     calculateReturns();
+  });
+
+  // Update URL when any form field changes
+  const formInputs = form.querySelectorAll('input, select');
+  formInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      updateURLFromForm();
+    });
   });
 
   // Currency formatting for starting amount
@@ -447,6 +536,9 @@ function calculatePortfolioReturns(
 
 // Calculate returns function
 async function calculateReturns(): Promise<void> {
+  // Update URL with current form values
+  updateURLFromForm();
+
   const startingAmount = parseCurrency((document.querySelector('#starting-amount') as HTMLInputElement).value);
   const monthlyContribution = parseCurrency((document.querySelector('#monthly-contribution') as HTMLInputElement).value);
   const startMonth = parseInt((document.querySelector('#start-month') as HTMLSelectElement).value);

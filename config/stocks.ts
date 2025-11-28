@@ -68,4 +68,28 @@ export const STOCKS: StockConfig[] = [
   { ticker: 'INTC', name: 'Intel Corporation' },
   { ticker: 'AMD', name: 'Advanced Micro Devices Inc.' },
   { ticker: 'QCOM', name: 'QUALCOMM Inc.' },
+
+  // Popular Mutual Funds - Vanguard
+  { ticker: 'VFIAX', name: 'Vanguard 500 Index Fund Admiral' },
+  { ticker: 'VTSAX', name: 'Vanguard Total Stock Market Index Admiral' },
+  { ticker: 'VTIAX', name: 'Vanguard Total Intl Stock Index Admiral' },
+  { ticker: 'VBTLX', name: 'Vanguard Total Bond Market Index Admiral' },
+  { ticker: 'VWINX', name: 'Vanguard Wellesley Income Fund' },
+  { ticker: 'VWELX', name: 'Vanguard Wellington Fund' },
+  { ticker: 'VGENX', name: 'Vanguard Energy Fund' },
+  { ticker: 'VGHCX', name: 'Vanguard Health Care Fund' },
+
+  // Popular Mutual Funds - Fidelity
+  { ticker: 'FXAIX', name: 'Fidelity 500 Index Fund' },
+  { ticker: 'FSKAX', name: 'Fidelity Total Market Index Fund' },
+  { ticker: 'FTIHX', name: 'Fidelity Total International Index Fund' },
+  { ticker: 'FXNAX', name: 'Fidelity US Bond Index Fund' },
+  { ticker: 'FBGRX', name: 'Fidelity Blue Chip Growth Fund' },
+  { ticker: 'FCNTX', name: 'Fidelity Contrafund' },
+
+  // Popular Mutual Funds - Schwab
+  { ticker: 'SWPPX', name: 'Schwab S&P 500 Index Fund' },
+  { ticker: 'SWTSX', name: 'Schwab Total Stock Market Index Fund' },
+  { ticker: 'SWISX', name: 'Schwab International Index Fund' },
+  { ticker: 'SWAGX', name: 'Schwab US Aggregate Bond Index Fund' },
 ];

@@ -770,6 +770,13 @@ function createPortfolioChart(labels: string[], values: number[], contributions:
             },
           },
         },
+        crosshair: {
+          line: {
+            color: '#6b7280',
+            width: 1,
+            dashPattern: [5, 5],
+          },
+        },
       },
       scales: {
         y: {
@@ -805,6 +812,27 @@ function createPortfolioChart(labels: string[], values: number[], contributions:
         },
       },
     },
+    plugins: [{
+      id: 'crosshair',
+      afterDraw: (chart) => {
+        if (chart.tooltip?.opacity && chart.tooltip.x) {
+          const ctx = chart.ctx;
+          const x = chart.tooltip.caretX;
+          const topY = chart.scales.y.top;
+          const bottomY = chart.scales.y.bottom;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.setLineDash([5, 5]);
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x, bottomY);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#6b7280';
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }],
   });
 }
 
@@ -931,6 +959,13 @@ function createComparisonChart(sp500Results: any, stockResults: any, stockTicker
             },
           },
         },
+        crosshair: {
+          line: {
+            color: '#6b7280',
+            width: 1,
+            dashPattern: [5, 5],
+          },
+        },
       },
       scales: {
         y: {
@@ -966,6 +1001,27 @@ function createComparisonChart(sp500Results: any, stockResults: any, stockTicker
         },
       },
     },
+    plugins: [{
+      id: 'crosshair',
+      afterDraw: (chart) => {
+        if (chart.tooltip?.opacity && chart.tooltip.x) {
+          const ctx = chart.ctx;
+          const x = chart.tooltip.caretX;
+          const topY = chart.scales.y.top;
+          const bottomY = chart.scales.y.bottom;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.setLineDash([5, 5]);
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x, bottomY);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#6b7280';
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+    }],
   });
 }
 

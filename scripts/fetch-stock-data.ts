@@ -61,9 +61,9 @@ async function fetchStockData(ticker: string, name: string) {
       const year = date.getFullYear();
       const month = date.getMonth() + 1; // JavaScript months are 0-indexed
 
-      // Calculate monthly return percentage
-      // Return = ((Current Close - Previous Close) / Previous Close) * 100
-      const monthlyReturn = ((currentMonth.close - previousMonth.close) / previousMonth.close) * 100;
+      // Calculate monthly return percentage using adjusted close (accounts for dividends & splits)
+      // Return = ((Current Adj Close - Previous Adj Close) / Previous Adj Close) * 100
+      const monthlyReturn = ((currentMonth.adjclose - previousMonth.adjclose) / previousMonth.adjclose) * 100;
 
       monthlyReturns.push({
         year,

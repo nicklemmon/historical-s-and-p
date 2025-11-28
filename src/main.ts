@@ -36,10 +36,10 @@ const app = document.querySelector<HTMLDivElement>('#app')!;
 
 // Show loading state
 app.innerHTML = `
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 flex items-center justify-center">
+  <div class="min-h-screen bg-[#1a1a2e] py-6 px-4 flex items-center justify-center">
     <div class="text-center">
-      <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
-      <p class="text-gray-700 text-lg">Loading S&P 500 data...</p>
+      <div class="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-[#3b82f6] mb-4"></div>
+      <p class="text-[#9ca3af] text-base">Loading market data...</p>
     </div>
   </div>
 `;
@@ -70,11 +70,11 @@ async function loadData() {
   } catch (error) {
     console.error('Error loading data:', error);
     app.innerHTML = `
-      <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 flex items-center justify-center">
-        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-md">
-          <h2 class="text-2xl font-bold text-red-600 mb-4">Error Loading Data</h2>
-          <p class="text-gray-700 mb-4">Failed to load S&P 500 historical data. Please run:</p>
-          <code class="block bg-gray-100 p-2 rounded">npm run update-data</code>
+      <div class="min-h-screen bg-[#1a1a2e] py-6 px-4 flex items-center justify-center">
+        <div class="bg-[#16213e] border border-[#ef4444] rounded-lg p-6 max-w-md">
+          <h2 class="text-lg font-semibold text-[#ef4444] mb-3">Error Loading Data</h2>
+          <p class="text-[#9ca3af] text-sm mb-4">Failed to load S&P 500 historical data. Please run:</p>
+          <code class="block bg-[#0f1419] border border-[#2d3748] rounded p-3 text-[#10b981] text-sm">npm run update-data</code>
         </div>
       </div>
     `;
@@ -90,107 +90,111 @@ function initializeApp() {
   const lastUpdated = metadata ? new Date(metadata.lastUpdated).toLocaleDateString() : 'Unknown';
 
   app.innerHTML = `
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-    <div class="max-w-2xl mx-auto">
-      <div class="bg-white rounded-2xl shadow-xl p-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">Historical S&P 500 Returns</h1>
-        <p class="text-gray-600 mb-8">Calculate investment growth based on historical data (${dateRange.earliest.year}-${dateRange.latest.year})</p>
-
-        <form id="calculator-form" class="space-y-6">
-          <!-- Starting Amount -->
+  <div class="min-h-screen bg-[#1a1a2e] py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-[#16213e] border border-[#2d3748] rounded-lg p-6 mb-4 shadow-xl">
+        <div class="flex items-center justify-between border-b border-[#2d3748] pb-4 mb-6">
           <div>
-            <label for="starting-amount" class="block text-sm font-medium text-gray-700 mb-2">
-              Starting Amount
-            </label>
-            <input
-              type="text"
-              id="starting-amount"
-              name="starting-amount"
-              value="$10,000"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              required
-            />
+            <h1 class="text-2xl font-bold text-[#f3f4f6] mb-1">S&P 500 Portfolio Calculator</h1>
+            <p class="text-[#9ca3af] text-sm">Historical returns analysis • ${dateRange.earliest.year}-${dateRange.latest.year}</p>
+          </div>
+          <div class="text-right">
+            <div class="text-[#6b7280] text-xs uppercase tracking-wide">Last Updated</div>
+            <div class="text-[#f3f4f6] text-sm font-medium mt-1">${lastUpdated}</div>
+          </div>
+        </div>
+
+        <form id="calculator-form" class="space-y-5">
+          <!-- Input Grid -->
+          <div class="grid grid-cols-3 gap-4">
+            <!-- Starting Amount -->
+            <div>
+              <label for="starting-amount" class="block text-[#9ca3af] text-sm font-medium mb-2">
+                Starting Amount
+              </label>
+              <input
+                type="text"
+                id="starting-amount"
+                name="starting-amount"
+                value="$10,000"
+                class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
+                required
+              />
+            </div>
+
+            <!-- Monthly Contribution -->
+            <div>
+              <label for="monthly-contribution" class="block text-[#9ca3af] text-sm font-medium mb-2">
+                Monthly Contribution
+              </label>
+              <input
+                type="text"
+                id="monthly-contribution"
+                name="monthly-contribution"
+                value="$500"
+                class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
+                required
+              />
+            </div>
+
+            <!-- Stock Comparison -->
+            ${availableStocks.length > 0 ? `
+            <div>
+              <label for="compare-stock" class="block text-[#9ca3af] text-sm font-medium mb-2">
+                Compare Stock
+              </label>
+              <select
+                id="compare-stock"
+                name="compare-stock"
+                class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
+              >
+                <option value="">S&P 500 Only</option>
+                ${availableStocks.map(stock => `<option value="${stock.ticker}">${stock.ticker} - ${stock.name}</option>`).join('')}
+              </select>
+            </div>
+            ` : ''}
           </div>
 
-          <!-- Monthly Contribution -->
-          <div>
-            <label for="monthly-contribution" class="block text-sm font-medium text-gray-700 mb-2">
-              Monthly Contribution
-            </label>
-            <input
-              type="text"
-              id="monthly-contribution"
-              name="monthly-contribution"
-              value="$500"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              required
-            />
-          </div>
-
-          <!-- Stock Comparison -->
-          ${availableStocks.length > 0 ? `
-          <div>
-            <label for="compare-stock" class="block text-sm font-medium text-gray-700 mb-2">
-              Compare to Individual Stock (Optional)
-            </label>
-            <select
-              id="compare-stock"
-              name="compare-stock"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            >
-              <option value="">S&P 500 Only</option>
-              ${availableStocks.map(stock => `<option value="${stock.ticker}">${stock.ticker} - ${stock.name}</option>`).join('')}
-            </select>
-          </div>
-          ` : ''}
-
-          <!-- Start Date -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              Start Date
-            </label>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
+          <!-- Date Range -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[#9ca3af] text-sm font-medium mb-2">
+                Start Date
+              </label>
+              <div class="grid grid-cols-2 gap-2">
                 <select
                   id="start-month"
                   name="start-month"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
                 >
                   ${generateMonthOptions(1)}
                 </select>
-              </div>
-              <div>
                 <select
                   id="start-year"
                   name="start-year"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
                 >
                   ${generateYearOptions(dateRange.earliest.year, dateRange.latest.year, 2020)}
                 </select>
               </div>
             </div>
-          </div>
 
-          <!-- End Date -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              End Date
-            </label>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
+            <div>
+              <label class="block text-[#9ca3af] text-sm font-medium mb-2">
+                End Date
+              </label>
+              <div class="grid grid-cols-2 gap-2">
                 <select
                   id="end-month"
                   name="end-month"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
                 >
                   ${generateMonthOptions(dateRange.latest.month)}
                 </select>
-              </div>
-              <div>
                 <select
                   id="end-year"
                   name="end-year"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  class="w-full px-3 py-2 bg-[#0f1419] border border-[#2d3748] rounded-md text-[#f3f4f6] text-sm focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition"
                 >
                   ${generateYearOptions(dateRange.earliest.year, dateRange.latest.year, dateRange.latest.year)}
                 </select>
@@ -201,62 +205,62 @@ function initializeApp() {
           <!-- Calculate Button -->
           <button
             type="submit"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            class="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold py-3 px-6 rounded-md transition duration-200 shadow-lg hover:shadow-xl"
           >
             Calculate Returns
           </button>
         </form>
 
         <!-- Results Section -->
-        <div id="results" class="mt-8 hidden">
-          <div class="border-t border-gray-200 pt-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Results</h2>
+        <div id="results" class="mt-6 hidden">
+          <div class="border-t border-[#2d3748] pt-6">
+            <div class="mb-4">
+              <h2 class="text-lg font-semibold text-[#f3f4f6]">Results</h2>
+            </div>
 
-            <div class="space-y-4">
-              <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
-                <p class="text-sm text-gray-600 mb-1">Final Portfolio Value</p>
-                <p id="final-value" class="text-4xl font-bold text-green-700"></p>
+            <div class="grid grid-cols-4 gap-4 mb-6">
+              <div class="bg-[#0f1419] border border-[#10b981] rounded-lg p-4">
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide mb-2">Final Value</p>
+                <p id="final-value" class="text-[#10b981] text-2xl font-bold"></p>
               </div>
 
-              <div class="grid grid-cols-2 gap-4">
-                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                  <p class="text-sm text-gray-600 mb-1">Total Contributions</p>
-                  <p id="total-contributions" class="text-2xl font-semibold text-blue-700"></p>
-                </div>
-
-                <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
-                  <p class="text-sm text-gray-600 mb-1">Total Gains</p>
-                  <p id="total-gains" class="text-2xl font-semibold text-purple-700"></p>
-                </div>
+              <div class="bg-[#0f1419] border border-[#2d3748] rounded-lg p-4">
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide mb-2">Contributions</p>
+                <p id="total-contributions" class="text-[#f3f4f6] text-xl font-bold"></p>
               </div>
 
-              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <p class="text-sm text-gray-600 mb-1">Total Return</p>
-                <p id="total-return" class="text-xl font-semibold text-gray-700"></p>
+              <div class="bg-[#0f1419] border border-[#2d3748] rounded-lg p-4">
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide mb-2">Total Gains</p>
+                <p id="total-gains" class="text-[#f59e0b] text-xl font-bold"></p>
               </div>
 
-              <!-- Portfolio Growth Chart -->
-              <div class="bg-white rounded-lg p-6 border border-gray-200 mt-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Portfolio Growth Over Time</h3>
-                <div class="relative" style="height: 400px;">
-                  <canvas id="portfolio-chart"></canvas>
-                </div>
+              <div class="bg-[#0f1419] border border-[#2d3748] rounded-lg p-4">
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide mb-2">Return %</p>
+                <p id="total-return" class="text-[#10b981] text-xl font-bold"></p>
+              </div>
+            </div>
+
+            <!-- Portfolio Growth Chart -->
+            <div class="bg-[#0f1419] border border-[#2d3748] rounded-lg p-5">
+              <h3 class="text-sm font-semibold text-[#f3f4f6] mb-4">Portfolio Growth Over Time</h3>
+              <div class="relative" style="height: 400px;">
+                <canvas id="portfolio-chart"></canvas>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Error Message -->
-        <div id="error-message" class="mt-4 hidden">
-          <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p class="text-red-700"></p>
+        <div id="error-message" class="mt-6 hidden">
+          <div class="bg-[#0f1419] border border-[#ef4444] rounded-lg p-4">
+            <p class="text-[#ef4444] text-sm"></p>
           </div>
         </div>
       </div>
 
       <!-- Data Source -->
-      <div class="mt-6 text-center text-sm text-gray-600">
-        <p>Data from ${metadata?.dataSource || 'Yahoo Finance'}. Last updated: ${lastUpdated}</p>
+      <div class="mt-4 text-center">
+        <p class="text-[#6b7280] text-xs">Data: ${metadata?.dataSource || 'Yahoo Finance'} • Updated: ${lastUpdated}</p>
       </div>
     </div>
   </div>
@@ -574,72 +578,80 @@ function displayComparisonResults(
 
   // Replace results content with comparison view
   resultsDiv.innerHTML = `
-    <div class="border-t border-gray-200 pt-8">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">Comparison Results</h2>
+    <div class="border-t border-[#2d3748] pt-6">
+      <div class="mb-4">
+        <h2 class="text-lg font-semibold text-[#f3f4f6]">Comparison: S&P 500 vs ${stockTicker}</h2>
+      </div>
 
       <!-- Side-by-side comparison -->
-      <div class="grid grid-cols-2 gap-6 mb-6">
+      <div class="grid grid-cols-2 gap-4 mb-6">
         <!-- S&P 500 Column -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-indigo-700 mb-4">S&P 500</h3>
-
-          <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg p-4 border border-indigo-200">
-            <p class="text-sm text-gray-600 mb-1">Final Portfolio Value</p>
-            <p class="text-2xl font-bold text-indigo-700">$${sp500Results.portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-          </div>
-
-          <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
-            <p class="text-sm text-gray-600 mb-1">Total Gains</p>
-            <p class="text-xl font-semibold text-blue-700">$${sp500Results.totalGains.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-          </div>
-
-          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-            <p class="text-sm text-gray-600 mb-1">Total Return</p>
-            <p class="text-lg font-semibold text-gray-700">${sp500Results.totalReturnPercentage >= 0 ? '+' : ''}${sp500Results.totalReturnPercentage.toFixed(2)}%</p>
+        <div class="space-y-3">
+          <div class="bg-[#0f1419] border border-[#3b82f6] rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-[#3b82f6] mb-3">S&P 500</h3>
+            <div class="space-y-3">
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Final Value</p>
+                <p class="text-[#3b82f6] text-xl font-bold mt-1">$${sp500Results.portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+              </div>
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Total Gains</p>
+                <p class="text-[#f3f4f6] text-base font-bold mt-1">$${sp500Results.totalGains.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+              </div>
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Return %</p>
+                <p class="text-[#f3f4f6] text-base font-bold mt-1">${sp500Results.totalReturnPercentage >= 0 ? '+' : ''}${sp500Results.totalReturnPercentage.toFixed(2)}%</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Stock Column -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-emerald-700 mb-4">${stockTicker}</h3>
-
-          <div class="bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg p-4 border border-emerald-200">
-            <p class="text-sm text-gray-600 mb-1">Final Portfolio Value</p>
-            <p class="text-2xl font-bold text-emerald-700">$${stockResults.portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-          </div>
-
-          <div class="bg-green-50 rounded-lg p-4 border border-green-200">
-            <p class="text-sm text-gray-600 mb-1">Total Gains</p>
-            <p class="text-xl font-semibold text-green-700">$${stockResults.totalGains.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-          </div>
-
-          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-            <p class="text-sm text-gray-600 mb-1">Total Return</p>
-            <p class="text-lg font-semibold text-gray-700">${stockResults.totalReturnPercentage >= 0 ? '+' : ''}${stockResults.totalReturnPercentage.toFixed(2)}%</p>
+        <div class="space-y-3">
+          <div class="bg-[#0f1419] border border-[#10b981] rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-[#10b981] mb-3">${stockTicker}</h3>
+            <div class="space-y-3">
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Final Value</p>
+                <p class="text-[#10b981] text-xl font-bold mt-1">$${stockResults.portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+              </div>
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Total Gains</p>
+                <p class="text-[#f3f4f6] text-base font-bold mt-1">$${stockResults.totalGains.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+              </div>
+              <div>
+                <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Return %</p>
+                <p class="text-[#f3f4f6] text-base font-bold mt-1">${stockResults.totalReturnPercentage >= 0 ? '+' : ''}${stockResults.totalReturnPercentage.toFixed(2)}%</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Shared Metrics -->
-      <div class="bg-purple-50 rounded-lg p-4 border border-purple-200 mb-6">
-        <p class="text-sm text-gray-600 mb-1">Total Contributions (Same for Both)</p>
-        <p class="text-xl font-semibold text-purple-700">$${sp500Results.totalContributions.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-      </div>
-
-      <!-- Difference -->
-      <div class="bg-gradient-to-r ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'from-green-50 to-emerald-50 border-green-300' : 'from-red-50 to-orange-50 border-red-300'} rounded-lg p-6 border">
-        <p class="text-sm text-gray-600 mb-2">Performance Difference</p>
-        <p class="text-3xl font-bold ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'text-green-700' : 'text-red-700'}">
-          ${stockResults.portfolioValue > sp500Results.portfolioValue ? '+' : ''}$${(stockResults.portfolioValue - sp500Results.portfolioValue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </p>
-        <p class="text-sm text-gray-600 mt-1">
-          ${stockTicker} ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'outperformed' : 'underperformed'} S&P 500 by ${Math.abs(stockResults.totalReturnPercentage - sp500Results.totalReturnPercentage).toFixed(2)} percentage points
+      <!-- Performance Delta -->
+      <div class="bg-[#0f1419] border ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'border-[#10b981]' : 'border-[#ef4444]'} rounded-lg p-4 mb-6">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Performance Difference</p>
+            <p class="text-2xl font-bold mt-1 ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'text-[#10b981]' : 'text-[#ef4444]'}">
+              ${stockResults.portfolioValue > sp500Results.portfolioValue ? '+' : ''}$${(stockResults.portfolioValue - sp500Results.portfolioValue).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+            </p>
+          </div>
+          <div class="text-right">
+            <p class="text-[#9ca3af] text-xs font-medium uppercase tracking-wide">Percentage Diff</p>
+            <p class="text-xl font-bold mt-1 ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'text-[#10b981]' : 'text-[#ef4444]'}">
+              ${stockResults.portfolioValue > sp500Results.portfolioValue ? '+' : ''}${(stockResults.totalReturnPercentage - sp500Results.totalReturnPercentage).toFixed(2)}%
+            </p>
+          </div>
+        </div>
+        <p class="text-[#9ca3af] text-sm mt-3">
+          ${stockTicker} ${stockResults.portfolioValue > sp500Results.portfolioValue ? 'outperformed' : 'underperformed'} the S&P 500
         </p>
       </div>
 
       <!-- Portfolio Growth Chart -->
-      <div class="bg-white rounded-lg p-6 border border-gray-200 mt-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Portfolio Growth Comparison</h3>
+      <div class="bg-[#0f1419] border border-[#2d3748] rounded-lg p-5">
+        <h3 class="text-sm font-semibold text-[#f3f4f6] mb-4">Comparative Growth Over Time</h3>
         <div class="relative" style="height: 400px;">
           <canvas id="portfolio-chart"></canvas>
         </div>
@@ -693,24 +705,26 @@ function createPortfolioChart(labels: string[], values: number[], contributions:
         {
           label: 'Portfolio Value',
           data: sampledValues,
-          borderColor: 'rgb(79, 70, 229)',
-          backgroundColor: 'rgba(79, 70, 229, 0.1)',
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
           borderWidth: 2,
           fill: true,
-          tension: 0.1,
-          pointRadius: sampledLabels.length < 50 ? 3 : 0,
+          tension: 0.4,
+          pointRadius: 0,
           pointHoverRadius: 5,
+          pointHoverBorderWidth: 2,
         },
         {
-          label: 'Total Contributions',
+          label: 'Contributions',
           data: sampledContributions,
-          borderColor: 'rgb(107, 114, 128)',
-          backgroundColor: 'rgba(107, 114, 128, 0.05)',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.1,
-          pointRadius: sampledLabels.length < 50 ? 3 : 0,
-          pointHoverRadius: 5,
+          borderColor: '#6b7280',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 4,
+          borderDash: [5, 5],
         },
       ],
     },
@@ -731,14 +745,28 @@ function createPortfolioChart(labels: string[], values: number[], contributions:
             font: {
               size: 12,
             },
+            color: '#9ca3af',
           },
         },
         tooltip: {
+          backgroundColor: '#16213e',
+          titleColor: '#f3f4f6',
+          bodyColor: '#9ca3af',
+          borderColor: '#2d3748',
+          borderWidth: 1,
+          padding: 12,
+          titleFont: {
+            size: 13,
+            weight: 'bold',
+          },
+          bodyFont: {
+            size: 12,
+          },
           callbacks: {
             label: (context) => {
               const value = context.parsed.y;
               const label = context.dataset.label || '';
-              return `${label}: $${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+              return `${label}: $${value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
             },
           },
         },
@@ -747,23 +775,32 @@ function createPortfolioChart(labels: string[], values: number[], contributions:
         y: {
           beginAtZero: true,
           ticks: {
+            color: '#6b7280',
+            font: {
+              size: 11,
+            },
             callback: (value) => {
               return '$' + (value as number).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             },
           },
           grid: {
-            color: 'rgba(0, 0, 0, 0.05)',
+            color: '#2d3748',
+            lineWidth: 1,
           },
         },
         x: {
-          grid: {
-            display: false,
-          },
           ticks: {
+            color: '#6b7280',
+            font: {
+              size: 10,
+            },
             maxRotation: 45,
             minRotation: 45,
             autoSkip: true,
             maxTicksLimit: 12,
+          },
+          grid: {
+            display: false,
           },
         },
       },
@@ -815,36 +852,38 @@ function createComparisonChart(sp500Results: any, stockResults: any, stockTicker
       labels: sampledLabels,
       datasets: [
         {
-          label: `${stockTicker} Portfolio`,
+          label: `${stockTicker}`,
           data: sampledStockValues,
-          borderColor: 'rgb(16, 185, 129)',
+          borderColor: '#10b981',
           backgroundColor: 'rgba(16, 185, 129, 0.1)',
-          borderWidth: 3,
-          fill: false,
-          tension: 0.1,
-          pointRadius: sampledLabels.length < 50 ? 3 : 0,
-          pointHoverRadius: 5,
-        },
-        {
-          label: 'S&P 500 Portfolio',
-          data: sampledSP500Values,
-          borderColor: 'rgb(79, 70, 229)',
-          backgroundColor: 'rgba(79, 70, 229, 0.1)',
-          borderWidth: 3,
-          fill: false,
-          tension: 0.1,
-          pointRadius: sampledLabels.length < 50 ? 3 : 0,
-          pointHoverRadius: 5,
-        },
-        {
-          label: 'Total Contributions',
-          data: sampledContributions,
-          borderColor: 'rgb(107, 114, 128)',
-          backgroundColor: 'rgba(107, 114, 128, 0.05)',
           borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBorderWidth: 2,
+        },
+        {
+          label: 'S&P 500',
+          data: sampledSP500Values,
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBorderWidth: 2,
+        },
+        {
+          label: 'Contributions',
+          data: sampledContributions,
+          borderColor: '#6b7280',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
           fill: false,
-          tension: 0.1,
-          pointRadius: sampledLabels.length < 50 ? 2 : 0,
+          tension: 0.4,
+          pointRadius: 0,
           pointHoverRadius: 4,
           borderDash: [5, 5],
         },
@@ -867,14 +906,28 @@ function createComparisonChart(sp500Results: any, stockResults: any, stockTicker
             font: {
               size: 12,
             },
+            color: '#9ca3af',
           },
         },
         tooltip: {
+          backgroundColor: '#16213e',
+          titleColor: '#f3f4f6',
+          bodyColor: '#9ca3af',
+          borderColor: '#2d3748',
+          borderWidth: 1,
+          padding: 12,
+          titleFont: {
+            size: 13,
+            weight: 'bold',
+          },
+          bodyFont: {
+            size: 12,
+          },
           callbacks: {
             label: (context) => {
               const value = context.parsed.y;
               const label = context.dataset.label || '';
-              return `${label}: $${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+              return `${label}: $${value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
             },
           },
         },
@@ -883,23 +936,32 @@ function createComparisonChart(sp500Results: any, stockResults: any, stockTicker
         y: {
           beginAtZero: true,
           ticks: {
+            color: '#6b7280',
+            font: {
+              size: 11,
+            },
             callback: (value) => {
               return '$' + (value as number).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
             },
           },
           grid: {
-            color: 'rgba(0, 0, 0, 0.05)',
+            color: '#2d3748',
+            lineWidth: 1,
           },
         },
         x: {
-          grid: {
-            display: false,
-          },
           ticks: {
+            color: '#6b7280',
+            font: {
+              size: 10,
+            },
             maxRotation: 45,
             minRotation: 45,
             autoSkip: true,
             maxTicksLimit: 12,
+          },
+          grid: {
+            display: false,
           },
         },
       },
